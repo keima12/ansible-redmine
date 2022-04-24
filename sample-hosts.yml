@@ -1,0 +1,11 @@
+all:
+  hosts:
+    redmine-server:
+      ansible_host: localhost
+      ansible_user: hoghoge
+      ansible_ssh_private_key_file: ~/.ssh/hogehoge
+      ansible_become_password: hogehoge
+  children:
+    Redmine:
+      hosts:
+        redmine-server:

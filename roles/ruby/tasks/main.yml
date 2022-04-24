@@ -1,0 +1,66 @@
+---
+# tasks file for ruby
+- name: apt install 
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ ruby_apt_package }}"
+    state: present
+- name: create redmine dir
+  become: yes
+  ansible.builtin.file:
+    path: "{{ redmine_dir }}"
+    owner: www-data
+    group: www-data
+    mode: 0775
+    state: directory
+- name: git clone redmine
+  become: yes
+  become_user: www-data
+  ansible.builtin.git:
+    repo: 'https://github.com/redmine/redmine.git'
+    dest: "{{ redmine_dir }}"
+    version: "4.2.5"
+    force: yes
+- name: change owner
+  become: yes
+  ansible.builtin.file:
+    path: "{{ redmine_dir }}"
+    owner: www-data
+    group: www-data
+    recurse: yes
+- name: copy config dir
+  become: yes
+  ansible.builtin.copy:
+    src: config
+    dest: "{{ redmine_dir }}"
+    owner: www-data
+    group: www-data
+- name: bundle exec
+  become: yes
+  become_user: www-data
+  community.general.bundler:
+    chdir: "{{ redmine_dir }}"
+    gem_path: ./vendor/bundle
+    state: present
+
+- name: rake generate secret token
+  become: yes
+  become_user: www-data
+  ansible.builtin.shell:
+    chdir: "{{ redmine_dir }}"
+    cmd: "bin/rake generate_secret_token"
+
+- name: rake db migrate
+  become: yes
+  become_user: www-data
+  ansible.builtin.shell:
+    chdir: "{{ redmine_dir }}"
+    cmd: "RAILS_ENV=production bin/rake db:migrate"
+
+- name: create redmin link
+  become: yes
+  become_user: www-data
+  ansible.builtin.file:
+    src: /var/lib/redmine/public/
+    dest: /var/lib/redmine/redmine
+    state: link

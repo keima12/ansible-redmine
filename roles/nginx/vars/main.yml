@@ -1,0 +1,8 @@
+---
+# vars file for nginx
+nginx_role_packages:
+  - nginx
+  - dirmngr
+  - gnupg
+  - apt-transport-https
+  - ca-certificates

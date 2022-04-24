@@ -1,0 +1,9 @@
+---
+# vars file for postgresql
+install_package: 
+  - postgresql
+  - libpq-dev
+  - python3-pip
+postgresql_redmine_user: redmine
+postgresql_redmine_pass: redmine
+redmine_db: redminedb

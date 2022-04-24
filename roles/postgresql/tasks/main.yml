@@ -1,0 +1,40 @@
+---
+# tasks file for postgresql
+# 日本語ロケールの設定
+- name: locale_gen ja
+  become: yes
+  community.general.locale_gen:
+    name: ja_JP.UTF-8
+    state: present
+# posgresqlのインストール
+- name: "apt install"
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ install_package }}"
+    state: present
+# pythonでpostgresqlを操作するためのライブラリを追加する。
+- name: "pip install"
+  become: yes
+  ansible.builtin.pip:
+    name: "psycopg2"
+    state: present
+# posgresql用のユーザの作成
+- name: create postgresql user
+  become: yes
+  become_user: postgres
+  community.general.postgresql_user:
+    name: "{{ postgresql_redmine_user }}"
+    password: "{{ postgresql_redmine_pass }}"
+    role_attr_flags: CREATEDB,NOSUPERUSER
+
+# Redmine用DB作成
+- name: create redmine db
+  become: yes
+  become_user: postgres
+  community.postgresql.postgresql_db:
+    name: "{{ redmine_db }}"
+    encoding: UTF-8
+    lc_ctype: ja_JP.UTF-8
+    lc_collate: ja_JP.UTF-8
+    template: template0
+    owner: "{{ postgresql_redmine_user }}"

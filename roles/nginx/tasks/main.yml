@@ -1,0 +1,58 @@
+---
+# tasks file for nginx
+- name: install nginx
+  become: yes
+  ansible.builtin.apt:
+    name: "{{ nginx_role_packages }}"
+    state: present
+- name: add apt key
+  become: yes
+  ansible.builtin.apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 561F9B9CAC40B2F7
+
+- name: set apt repository
+  become: yes
+  ansible.builtin.copy:
+    src: passenger.list
+    dest: /etc/apt/sources.list.d/passenger.list
+    mode: 0664
+
+- name: apt update
+  become: yes
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: install libnginx-mod-http-passenger
+  become: yes
+  ansible.builtin.apt:
+    name: libnginx-mod-http-passenger
+    state: present
+
+- name: create symbolic link
+  become: yes
+  ansible.builtin.file:
+    src: /usr/share/nginx/modules-available/mod-http-passenger.load
+    dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
+    state: link
+- name: copy redmine.conf
+  become: yes
+  ansible.builtin.copy:
+    src: redmin.conf
+    dest: /etc/nginx/sites-available/redmin.conf
+    mode: 0664
+- name: create redmin.conf symbolic link
+  become: yes
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/redmin.conf
+    dest: /etc/nginx/sites-enabled/redmin.conf
+    state: link
+
+- name: restart nginx
+  become: yes
+  ansible.builtin.systemd:
+    name: nginx
+    state: reloaded
+
+
+  

@@ -1,0 +1,21 @@
+---
+# vars file for ruby
+ruby_apt_package: 
+  - build-essential
+  - zlib1g-dev
+  - libssl-dev
+  - libreadline-dev
+  - libyaml-dev
+  - libcurl4-openssl-dev
+  - libffi-dev
+  - ruby
+  - ruby-dev
+  - git
+  - imagemagick
+  - fonts-takao-pgothic
+  - ruby-bundler
+  - gcc
+  - g++
+  - make
+
+redmine_dir: /var/lib/redmine
