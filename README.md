@@ -31,6 +31,6 @@ Ubuntu 20.04.4 LTS
 
 [Redmine 4.2をUbuntu 20.04 LTSにインストールする手順](https://blog.redmine.jp/articles/4_2/install/ubuntu/)  
 [Installing Passenger
-on Ubuntu 20.04 LTS (with APT)](https://www.phusionpassenger.com/docs/advanced_guides/install_and_upgrade/nginx/install/oss/focal.html)
+on Ubuntu 20.04 LTS (with APT)](https://www.phusionpassenger.com/docs/advanced_guides/install_and_upgrade/nginx/install/oss/focal.html)  
 [Redmineをサブディレクトリから実行](http://blog.toff-monaka.com/my-post1/redmine-post/)
 
