@@ -24,7 +24,7 @@ Ubuntu 20.04.4 LTS
 ## 使用方法
 
 1. イベントリーファイル、プレイブックを作成する。(sample-hosts.yml, sample-site.yml参照)
-2. roles/nginx/files/redmine.confのserver_nameの設定をターゲット環境に合わせた内容に修正する。
+2. イベントリ(sample-hosts.yml)に定義sした変数redmine_hostnameの設定をターゲット環境に合わせた内容に修正する。
 3. play bookを実行する。
 
 ## 参考

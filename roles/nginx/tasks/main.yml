@@ -37,8 +37,8 @@
     state: link
 - name: copy redmine.conf
   become: yes
-  ansible.builtin.copy:
-    src: redmin.conf
+  ansible.builtin.template:
+    src: redmine.conf.j2
     dest: /etc/nginx/sites-available/redmin.conf
     mode: 0664
 - name: create redmin.conf symbolic link
