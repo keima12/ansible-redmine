@@ -1,0 +1,11 @@
+---
+- hosts: Redmine
+  roles: 
+    - role: postgresql
+      tags: [init, postgresql]
+    - role: nginx
+      tags: [init, nginx]
+    - role: ruby
+      tags: [init, ruby]
+    - role: redmine-opt
+      tags: [init, redmine-opt]

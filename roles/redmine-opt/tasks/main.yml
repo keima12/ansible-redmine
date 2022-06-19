@@ -1,0 +1,41 @@
+---
+# tasks file for redmine-opt
+- name: set logroate production.log
+  become: yes
+  ansible.builtin.copy:
+    src: additional_environment.rb
+    dest: /var/lib/redmine/config/additional_environment.rb
+    owner: www-data
+    group: www-data
+    mode: 0664
+- name: reload nginx
+  become: yes
+  ansible.builtin.systemd:
+    name: nginx
+    state: reloaded
+
+- name: git clone farend_basic themes
+  become: yes
+  become_user: www-data
+  ansible.builtin.git:
+    repo: https://github.com/farend/redmine_theme_farend_basic.git
+    dest: /var/lib/redmine/public/themes/farend_basic
+
+- name: copy log-delete-timer
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system/
+    mode: 0644
+    owner: root
+    group: root
+  loop:
+    - system/delete-redmine-production-log.service
+    - system/delete-redmine-production-log.timer
+- name: start log-delete-timer
+  become: yes
+  ansible.builtin.systemd:
+    name: delete-redmine-production-log.timer
+    enabled: true
+    daemon_reload: true
+    state: started
