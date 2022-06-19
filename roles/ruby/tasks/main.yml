@@ -57,7 +57,7 @@
     chdir: "{{ redmine_dir }}"
     cmd: "RAILS_ENV=production bin/rake db:migrate"
 
-- name: create redmin link
+- name: create redmine link
   become: yes
   become_user: www-data
   ansible.builtin.file:
