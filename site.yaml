@@ -9,3 +9,5 @@
       tags: [init, ruby]
     - role: redmine-opt
       tags: [init, redmine-opt]
+    - role: fetch-config
+      tags: [never, fetch]

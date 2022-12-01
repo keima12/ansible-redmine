@@ -1,0 +1,9 @@
+---
+# tasks file for fetch-config
+- name: fetch_config
+  become: yes
+  ansible.builtin.fetch:
+    src: "{{ item }}"
+    dest: "fetched"
+    fail_on_missing: yes
+  loop: "{{ config_files }}"
